@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COMICA STUDIO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- OPENING ANIMATION -->
+  <div id="intro" class="intro">
+    <div class="comic-orbit">
+      <span>✦</span>
+      <span>💬</span>
+      <span>⚡</span>
+      <span>★</span>
+    </div>
+
+    <h1>COMICA STUDIO</h1>
+    <p>Turn Your Story Into a Comic</p>
+    <small>Created by Prajan Kumaran</small>
+
+    <button onclick="startStudio()">ENTER STUDIO</button>
+  </div>
+
+
+  <!-- MAIN APP -->
+  <div id="app" class="hidden">
+
+    <header>
+      <div>
+        <h1>COMICA STUDIO</h1>
+        <p>Created by Prajan Kumaran</p>
+      </div>
+
+      <button class="about" onclick="showAbout()">
+        About Creator
+      </button>
+    </header>
+
+
+    <main>
+
+      <!-- GUIDE -->
+      <section id="guide" class="screen active">
+
+        <h2>Welcome to Comica AI</h2>
+        <p class="subtitle">
+          Create your comic step by step.
+        </p>
+
+        <div class="steps">
+
+          <div class="step-card">
+            <b>01</b>
+            <h3>Story</h3>
+            <p>Tell Comica your story.</p>
+          </div>
+
+          <div class="step-card">
+            <b>02</b>
+            <h3>Characters</h3>
+            <p>Create as many characters as you need.</p>
+          </div>
+
+          <div class="step-card">
+            <b>03</b>
+            <h3>Scenes</h3>
+            <p>Create scenes yourself or use Comica AI.</p>
+          </div>
+
+          <div class="step-card">
+            <b>04</b>
+            <h3>Panels</h3>
+            <p>Choose panels and speech bubbles.</p>
+          </div>
+
+          <div class="step-card">
+            <b>05</b>
+            <h3>Pages</h3>
+            <p>Arrange your finished comic.</p>
+          </div>
+
+        </div>
+
+        <button class="primary" onclick="goTo('story')">
+          START CREATING →
+        </button>
+
+      </section>
+
+
+      <!-- STEP 1 -->
+      <section id="story" class="screen">
+
+        <div class="ai-title">
+          <span>🤖</span>
+
+          <div>
+            <h2>Comica AI</h2>
+            <p>Your comic creation assistant</p>
+          </div>
+        </div>
+
+        <h2>STEP 1 — YOUR STORY</h2>
+
+        <textarea
+          id="storyInput"
+          placeholder="Tell Comica your story here...
+
+Example:
+A young detective enters an abandoned laboratory
+and discovers a mysterious machine."
+        ></textarea>
+
+        <button class="primary" onclick="analyzeStory()">
+          ✨ ANALYZE MY STORY
+        </button>
+
+        <div id="storyResult" class="story-table hidden"></div>
+
+        <button
+          id="storyNext"
+          class="next hidden"
+          onclick="goTo('characters')"
+        >
+          NEXT — CHARACTERS →
+        </button>
+
+      </section>
+
+
+      <!-- STEP 2 -->
+      <section id="characters" class="screen">
+
+        <div class="step-heading">
+
+          <div>
+            <span class="step-number">02</span>
+
+            <div>
+              <h2>CHARACTER CREATOR</h2>
+
+              <p class="subtitle">
+                Create as many characters as your story needs.
+              </p>
+            </div>
+          </div>
+
+          <div class="character-count">
+            <span id="characterCount">0</span>
+            Characters
+          </div>
+
+        </div>
+
+
+        <!-- CHARACTER CREATION AREA -->
+        <div class="character-creator">
+
+          <div class="creator-form">
+
+            <label>Character Name</label>
+
+            <input
+              id="characterName"
+              type="text"
+              placeholder="Example: Steve"
+            >
+
+
+            <label>Character Description</label>
+
+            <textarea
+              id="characterDescription"
+              placeholder="Describe the character...
+
+Example:
+A young detective wearing a brown jacket.
+He is brave and intelligent."
+            ></textarea>
+
+
+            <label>Character Style</label>
+
+            <select id="characterStyle">
+
+              <option value="comic">
+                Modern Comic
+              </option>
+
+              <option value="anime">
+                Anime
+              </option>
+
+              <option value="cartoon">
+                Cartoon
+              </option>
+
+              <option value="manga">
+                Manga
+              </option>
+
+              <option value="cinematic">
+                Cinematic
+              </option>
+
+            </select>
+
+
+            <div class="creator-buttons">
+
+              <button
+                class="ai-button"
+                onclick="generateCharacter()"
+              >
+                🤖 GENERATE CHARACTER IMAGE
+              </button>
+
+              <button
+                class="secondary-button"
+                onclick="clearCharacterForm()"
+              >
+                CLEAR
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- LIVE PREVIEW -->
+          <div class="character-live-preview">
+
+            <div class="preview-label">
+              CHARACTER PREVIEW
+            </div>
+
+            <div
+              id="characterPreview"
+              class="character-image-preview"
+            >
+
+              <div class="preview-placeholder">
+
+                <div class="placeholder-icon">
+                  👤
+                </div>
+
+                <p>
+                  Your character image
+                  will appear here
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CHARACTER COLLECTION -->
+        <div class="collection-heading">
+
+          <div>
+            <h3>MY CHARACTERS</h3>
+
+            <p>
+              Your characters will stay consistent throughout your comic.
+            </p>
+          </div>
+
+          <button
+            class="add-character-button"
+            onclick="newCharacter()"
+          >
+            + ADD CHARACTER
+          </button>
+
+        </div>
+
+
+        <div
+          id="characterList"
+          class="character-grid"
+        ></div>
+
+
+        <button
+          class="next"
+          onclick="goTo('scenes')"
+        >
+          NEXT — SCENES →
+        </button>
+
+      </section>
+
+
+      <!-- STEP 3 -->
+      <section id="scenes" class="screen">
+
+        <h2>STEP 3 — SCENE CREATOR</h2>
+
+        <p class="subtitle">
+          You control the scene. Comica AI helps when you want it.
+        </p>
+
+        <textarea
+          id="sceneInput"
+          placeholder="Describe your scene...
+
+Example:
+Steve walks through a dark forest at night.
+There is an old abandoned house behind him."
+        ></textarea>
+
+        <div class="scene-buttons">
+
+          <button
+            class="primary"
+            onclick="createScene()"
+          >
+            ✍️ CREATE MY SCENE
+          </button>
+
+          <button
+            class="ai-button"
+            onclick="generateScene()"
+          >
+            🤖 GENERATE WITH COMICA AI
+          </button>
+
+        </div>
+
+        <div
+          id="sceneResult"
+          class="scene-preview"
+        >
+          Your generated scene will appear here.
+        </div>
+
+        <button
+          class="next"
+          onclick="goTo('panels')"
+        >
+          NEXT — PANELS →
+        </button>
+
+      </section>
+
+
+      <!-- STEP 4 -->
+      <section id="panels" class="screen">
+
+        <h2>STEP 4 — PANELS & SPEECH</h2>
+
+        <div class="panel-options">
+
+          <button onclick="selectPanel(1)">
+            1 PANEL
+          </button>
+
+          <button onclick="selectPanel(2)">
+            2 PANELS
+          </button>
+
+          <button onclick="selectPanel(3)">
+            3 PANELS
+          </button>
+
+          <button onclick="selectPanel(4)">
+            4 PANELS
+          </button>
+
+          <button onclick="selectPanel(5)">
+            5 PANELS
+          </button>
+
+          <button onclick="selectPanel(6)">
+            6 PANELS
+          </button>
+
+        </div>
+
+        <div
+          id="panelPreview"
+          class="panel-preview"
+        >
+          Choose a panel layout.
+        </div>
+
+        <button
+          class="next"
+          onclick="goTo('pages')"
+        >
+          NEXT — PAGE DESIGN →
+        </button>
+
+      </section>
+
+
+      <!-- STEP 5 -->
+      <section id="pages" class="screen">
+
+        <h2>STEP 5 — PAGE DESIGN</h2>
+
+        <p class="subtitle">
+          Arrange your panels into a clean comic page.
+        </p>
+
+        <div
+          id="comicPage"
+          class="comic-page"
+        >
+
+          <div class="page-title">
+            YOUR COMIC
+          </div>
+
+          <div class="page-panels"></div>
+
+        </div>
+
+        <button
+          class="download"
+          onclick="downloadComic()"
+        >
+          ⬇ DOWNLOAD COMIC
+        </button>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ABOUT -->
+  <div
+    id="about"
+    class="modal hidden"
+  >
+
+    <div class="modal-box">
+
+      <button
+        class="close"
+        onclick="closeAbout()"
+      >
+        ×
+      </button>
+
+      <h2>ABOUT CREATOR</h2>
+
+      <h3>Prajan Kumaran</h3>
+
+      <p>
+        Creator of Comica Studio — a project designed
+        to help people turn their stories into comics.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
