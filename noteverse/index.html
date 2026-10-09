@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09090d">
+<title>NoteVerse — Smart Notes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="intro">
+  <div class="intro-glow"></div>
+  <div class="intro-content">
+    <div class="logo">N<span>V</span></div>
+    <h1>NOTEVERSE</h1>
+    <p>YOUR IDEAS. YOUR UNIVERSE.</p>
+    <div class="loading"><span></span></div>
+  </div>
+</div>
+
+<header>
+  <div class="brand"><span class="brand-icon">N</span> NoteVerse</div>
+  <input id="search" placeholder="Search your notes..." aria-label="Search notes">
+  <button id="newNote" class="primary">+ New Note</button>
+</header>
+
+<div class="layout">
+  <aside>
+    <button class="nav active" data-view="notes">▤ All Notes</button>
+    <button class="nav" data-view="starred">☆ Favorites</button>
+    <button class="nav" data-view="tasks">✓ To-do Lists</button>
+    <button class="nav" data-view="folders">▣ Folders</button>
+    <button class="nav" data-view="drawing">✎ Drawing Pad</button>
+    <button class="nav" data-view="fonts">Aa Font Studio</button>
+    <button class="nav" data-view="settings">⚙ Settings</button>
+    <div class="side-heading">YOUR FOLDERS</div>
+    <div id="folderList"></div>
+    <button id="addFolder">+ New Folder</button>
+    <div class="side-footer">NOTEVERSE <span>VERSION 1.0</span></div>
+  </aside>
+
+  <main>
+    <section id="listView">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+          <h2 id="viewTitle">All Notes</h2>
+          <p class="muted" id="noteCount">Your ideas, beautifully organized.</p>
+        </div>
+        <button id="exportAll">Export Notes</button>
+      </div>
+      <div id="notesGrid" class="notes-grid"></div>
+      <div id="empty" class="empty hidden">
+        <div class="empty-icon">✧</div>
+        <h3>Start with an idea</h3>
+        <p>Your next great thought belongs here.</p>
+        <button class="primary" id="emptyCreate">Create your first note</button>
+      </div>
+    </section>
+
+    <section id="editorView" class="hidden">
+      <div class="editor-top">
+        <button id="back">← Back</button>
+        <span id="saveStatus">Saved locally</span>
+        <button id="favorite">☆ Favorite</button>
+        <button id="lockNote">🔒 Protect</button>
+        <button id="deleteNote" class="danger">Delete</button>
+      </div>
+
+      <label for="noteTitle">NOTE TITLE</label>
+      <input id="noteTitle" placeholder="Give your idea a title...">
+
+      <div class="editor-meta">
+        <select id="noteFolder" aria-label="Note folder"></select>
+        <input id="noteTags" placeholder="Tags, separated by commas">
+        <input id="noteColor" type="color" value="#a78bfa" aria-label="Note color">
+      </div>
+
+      <div class="toolbar">
+        <select id="fontSelect" aria-label="Font family">
+          <option value="Inter">Inter</option>
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="monospace">Monospace</option>
+          <option value="serif">Serif</option>
+        </select>
+        <select id="fontSize" aria-label="Font size">
+          <option>14</option><option>16</option><option selected>18</option>
+          <option>20</option><option>24</option><option>32</option><option>48</option>
+        </select>
+        <button data-insert="**" title="Bold">B</button>
+        <button data-insert="*">Italic</button>
+        <button data-insert="## ">Heading</button>
+        <button data-insert="- ">List</button>
+        <button data-insert="`">Code</button>
+        <button id="voiceBtn">Voice typing</button>
+        <button id="attachBtn">Attach file</button>
+        <button id="downloadNote">Download</button>
+        <button id="assistantBtn" class="primary">Writing Assistant</button>
+      </div>
+
+      <div class="writing-area">
+        <textarea id="noteBody" placeholder="Start writing your thoughts here..."></textarea>
+        <div id="preview" class="hidden"></div>
+      </div>
+
+      <div class="editor-bottom">
+        <span id="wordCount">0 words</span>
+        <div>
+          <button id="editMode" class="active-mode">Edit</button>
+          <button id="previewMode">Preview</button>
+        </div>
+      </div>
+
+      <div id="attachments"></div>
+      <input id="fileInput" type="file" multiple class="hidden">
+      <div id="assistantPanel" class="assistant-panel hidden">
+        <h3>Writing Assistant</h3>
+        <p class="muted">Choose a tool for your selected text or entire note.</p>
+        <div class="assistant-buttons">
+          <button data-ai="improve">Improve writing</button>
+          <button data-ai="summarize">Summarize</button>
+          <button data-ai="expand">Expand ideas</button>
+          <button data-ai="correct">Correct spelling</button>
+        </div>
+        <p id="assistantResult"></p>
+        <button id="applyAssistant" class="primary hidden">Apply result</button>
+        <p class="small muted">Offline writing tools use simple rules, not a cloud AI model.</p>
+      </div>
+    </section>
+
+    <section id="tasksView" class="hidden">
+      <p class="eyebrow">PLAN YOUR DAY</p><h2>To-do Lists</h2>
+      <form id="taskForm">
+        <input id="taskInput" placeholder="What do you need to do?" required>
+        <button class="primary">Add Task</button>
+      </form>
+      <div id="taskList"></div>
+    </section>
+
+    <section id="foldersView" class="hidden">
+      <p class="eyebrow">KEEP IT ORGANIZED</p><h2>Your Folders</h2>
+      <div id="folderCards" class="notes-grid"></div>
+    </section>
+
+    <section id="drawingView" class="hidden">
+      <p class="eyebrow">CREATIVE SPACE</p><h2>Drawing Pad</h2>
+      <div class="draw-tools">
+        <label>Pen colour<input id="penColor" type="color" value="#a78bfa"></label>
+        <label>Pen size<input id="penSize" type="range" min="1" max="30" value="4"></label>
+        <button id="eraser">Eraser</button>
+        <button id="clearCanvas">Clear</button>
+        <button id="saveDrawing" class="primary">Save Drawing</button>
+        <button id="downloadDrawing">Download PNG</button>
+      </div>
+      <canvas id="canvas"></canvas>
+    </section>
+
+    <section id="fontsView" class="hidden">
+      <p class="eyebrow">MAKE EVERY WORD YOUR OWN</p><h2>Font Studio</h2>
+      <p class="muted">Browse the Google Fonts catalogue, search typefaces and open the selected font's download page.</p>
+      <input id="fontSearch" placeholder="Search 1,000+ fonts...">
+      <p id="fontStatus" class="small muted">Loading font catalogue...</p>
+      <div id="fontResults" class="font-results"></div>
+    </section>
+
+    <section id="settingsView" class="hidden">
+      <p class="eyebrow">PERSONALIZE YOUR SPACE</p><h2>Settings</h2>
+      <div class="setting-card">
+        <h3>Backup</h3>
+        <p class="muted">Download your notes as a JSON backup file.</p>
+        <button id="backupBtn" class="primary">Download Backup</button>
+        <label class="import-label">Restore from backup<input id="importInput" type="file" accept=".json,application/json"></label>
+      </div>
+      <div class="setting-card">
+        <h3>Storage</h3>
+        <p id="storageInfo" class="muted">Your notes are stored in this browser.</p>
+        <button id="clearData" class="danger">Delete all local data</button>
+      </div>
+      <div class="setting-card">
+        <h3>Privacy</h3>
+        <p class="muted">Protected notes use browser encryption. Keep your password safe. Local browser storage is not cloud synchronization.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button id="closeModal" class="modal-close">×</button>
+    <h3 id="modalTitle">NoteVerse</h3>
+    <p id="modalText" class="muted"></p>
+    <input id="modalInput" type="password" placeholder="Enter password">
+    <div class="modal-actions">
+      <button id="modalCancel">Cancel</button>
+      <button id="modalConfirm" class="primary">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<script src="script.js"></script>
+</body>
+</html>
